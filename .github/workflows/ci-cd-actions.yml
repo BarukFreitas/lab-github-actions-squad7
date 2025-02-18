@@ -16,6 +16,12 @@ jobs:
           java-version: '17'
           cache: maven
 
+      - name: Verificar diretório atual
+        run: pwd  # Mostra onde o script está rodando
+
+      - name: Listar arquivos
+        run: ls -la  # Lista os arquivos para ver se o projeto foi clonado corretamente
+
       - name: Construir o projeto e baixar dependências
         run: mvn clean install -f projeto-rest-aula03/pom.xml
 
@@ -26,8 +32,11 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Verificar se o projeto foi clonado corretamente
-        run: ls -la  
+      - name: Verificar diretório atual
+        run: pwd  # Mostra onde o script está rodando
+
+      - name: Listar arquivos
+        run: ls -la  # Confirma se o projeto foi clonado corretamente
 
       - name: Rodar testes de Health Check
         run: mvn test -Dgroups=HealthCheck -f projeto-rest-aula03/pom.xml
