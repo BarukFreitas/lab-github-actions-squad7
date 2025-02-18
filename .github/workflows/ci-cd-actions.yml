@@ -16,9 +16,6 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: Compilar o projeto
-        run: mvn clean install
-
       - name: Construir o projeto e baixar dependências
         run: |
           cd projeto-rest-aula03
