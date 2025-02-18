@@ -26,27 +26,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Rodar testes de Health Check
-        run: mvn test -Dgroups=HealthCheck
+        run: |
+          cd projeto-rest-aula03
+          mvn test -Dgroups=HealthCheck
 
   contrato:
     needs: health-check
     runs-on: ubuntu-latest
     steps:
       - name: Rodar testes de contrato (JSON Schema)
-        run: mvn test -Dgroups=Contrato
+        run: |
+          cd projeto-rest-aula03  
+          mvn test -Dgroups=Contrato
 
   funcional:
     needs: contrato
     runs-on: ubuntu-latest
     steps:
       - name: Rodar testes funcionais com JUnit 5 + Rest Assured
-        run: mvn test -Dgroups=Funcional
+        run: |
+          cd projeto-rest-aula03  
+          mvn test -Dgroups=Funcional
 
   relatorio:
     runs-on: ubuntu-latest
     steps:
       - name: Gerar relatório de testes com Surefire Report
-        run: mvn surefire-report:report-only
+        run: |
+          cd projeto-rest-aula03  
+          mvn surefire-report:report-only
 
       - name: Upload do relatório
         uses: actions/upload-artifact@v3
