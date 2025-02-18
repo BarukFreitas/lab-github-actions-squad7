@@ -16,7 +16,9 @@ jobs:
           java-version: '17'
 
       - name: Construir o projeto e baixar dependências
-        run: mvn clean install
+        run: |
+          cd projeto-rest-aula03
+          mvn clean install
 
   health-check:
     needs: build
