@@ -3,6 +3,7 @@ package com.vemser.rest.tests.usuarios;
 import com.vemser.rest.client.UsuarioClient;
 import com.vemser.rest.data.factory.UsuarioDataFactory;
 import com.vemser.rest.model.request.UsuarioRequest;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.*;
@@ -12,6 +13,7 @@ public class CadastrarUsuariosTest {
     private final UsuarioClient usuarioClient = new UsuarioClient();
 
     @Test
+    @Tag("Funcional")
     public void testDeveCadastrarUsuarioComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -28,6 +30,7 @@ public class CadastrarUsuariosTest {
     }
 
     @Test
+    @Tag("Contrato")
     public void testSchemaDeveCadastrarUsuarioComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
