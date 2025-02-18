@@ -25,32 +25,48 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+
+      - name: Checkout do código
+        uses: actions/checkout@v4
+      
       - name: Rodar testes de Health Check
         run: |
-          cd projeto-rest-aula03\projeto-rest-aula03\src\test\java\com\vemser\rest\tests\usuarios
+          cd projeto-rest-aula03
           mvn test -Dgroups=HealthCheck
 
   contrato:
     needs: health-check
     runs-on: ubuntu-latest
     steps:
+
+      - name: Checkout do código
+        uses: actions/checkout@v4
+    
       - name: Rodar testes de contrato (JSON Schema)
         run: |
-          cd projeto-rest-aula03\projeto-rest-aula03\src\test\java\com\vemser\rest\tests\usuarios
+          cd projeto-rest-aula03
           mvn test -Dgroups=Contrato
 
   funcional:
     needs: contrato
     runs-on: ubuntu-latest
     steps:
+
+      - name: Checkout do código
+        uses: actions/checkout@v4
+    
       - name: Rodar testes funcionais com JUnit 5 + Rest Assured
         run: |
-          cd projeto-rest-aula03\projeto-rest-aula03\src\test\java\com\vemser\rest\tests\usuarios  
+          cd projeto-rest-aula03  
           mvn test -Dgroups=Funcional
 
   relatorio:
     runs-on: ubuntu-latest
     steps:
+      
+      - name: Checkout do código
+        uses: actions/checkout@v4
+  
       - name: Gerar relatório de testes com Surefire Report
         run: |
           cd projeto-rest-aula03  
