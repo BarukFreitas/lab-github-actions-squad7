@@ -25,7 +25,10 @@ jobs:
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
-      
+
+      - name: Verificar se o projeto foi clonado corretamente
+        run: ls -la  
+
       - name: Rodar testes de Health Check
         run: mvn test -Dgroups=HealthCheck --file projeto-rest-aula03/pom.xml
 
@@ -35,7 +38,10 @@ jobs:
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
-    
+
+      - name: Verificar se o projeto foi clonado corretamente
+        run: ls -la  
+
       - name: Rodar testes de contrato (JSON Schema)
         run: mvn test -Dgroups=Contrato --file projeto-rest-aula03/pom.xml
 
@@ -45,7 +51,10 @@ jobs:
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
-    
+
+      - name: Verificar se o projeto foi clonado corretamente
+        run: ls -la  
+
       - name: Rodar testes funcionais com JUnit 5 + Rest Assured
         run: mvn test -Dgroups=Funcional --file projeto-rest-aula03/pom.xml
 
@@ -55,7 +64,10 @@ jobs:
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
-  
+
+      - name: Verificar se o projeto foi clonado corretamente
+        run: ls -la  
+
       - name: Gerar relatório de testes com Surefire Report
         run: mvn surefire-report:report-only --file projeto-rest-aula03/pom.xml
 
