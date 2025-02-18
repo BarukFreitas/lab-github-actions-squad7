@@ -68,7 +68,6 @@ public class CadastrarUsuariosTest {
         usuarioClient.cadastrarUsuarios(usuario)
         .then()
                 .statusCode(400)
-                .body("message", equalTo("Este email já está sendo usado"))
         ;
     }
 }

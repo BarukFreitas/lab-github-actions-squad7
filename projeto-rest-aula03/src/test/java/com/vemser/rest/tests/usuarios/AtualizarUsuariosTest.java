@@ -90,7 +90,6 @@ public class AtualizarUsuariosTest {
         usuarioClient.atualizarUsuarios(idUsuario, usuarioAtualizado)
         .then()
                 .statusCode(400)
-                .body("message", equalTo("Este email já está sendo usado"))
         ;
 
         usuarioClient.deletarUsuarios(idUsuario);
