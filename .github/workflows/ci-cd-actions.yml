@@ -16,15 +16,13 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: Verificar diretório atual e listar arquivos
-        run: |
-          pwd
-          ls -la
-
-      - name: Construir o projeto e baixar dependências
-        run: |
-          cd projeto-rest-aula03
-          mvn clean install
+      - name: Cache Maven
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
 
   health-check:
     needs: build
