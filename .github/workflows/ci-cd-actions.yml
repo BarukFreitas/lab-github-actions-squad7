@@ -17,9 +17,7 @@ jobs:
           cache: maven
 
       - name: Construir o projeto e baixar dependências
-        run: |
-          cd projeto-rest-aula03
-          mvn clean install
+        run: mvn clean install -f projeto-rest-aula03/pom.xml
 
   health-check:
     needs: build
@@ -32,9 +30,7 @@ jobs:
         run: ls -la  
 
       - name: Rodar testes de Health Check
-        run: |
-          cd projeto-rest-aula03
-          mvn test -Dgroups=HealthCheck
+        run: mvn test -Dgroups=HealthCheck -f projeto-rest-aula03/pom.xml
 
   contrato:
     needs: health-check
@@ -44,9 +40,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Rodar testes de contrato (JSON Schema)
-        run: |
-          cd projeto-rest-aula03
-          mvn test -Dgroups=Contrato
+        run: mvn test -Dgroups=Contrato -f projeto-rest-aula03/pom.xml
 
   funcional:
     needs: contrato
@@ -56,9 +50,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Rodar testes funcionais com JUnit 5 + Rest Assured
-        run: |
-          cd projeto-rest-aula03  
-          mvn test -Dgroups=Funcional
+        run: mvn test -Dgroups=Funcional -f projeto-rest-aula03/pom.xml
 
   relatorio:
     needs: funcional
@@ -68,9 +60,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Gerar relatório de testes com Surefire Report
-        run: |
-          cd projeto-rest-aula03  
-          mvn surefire-report:report-only
+        run: mvn surefire-report:report-only -f projeto-rest-aula03/pom.xml
 
       - name: Upload do relatório
         uses: actions/upload-artifact@v3
