@@ -16,14 +16,15 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: Verificar diretório atual
-        run: pwd  # Mostra onde o script está rodando
-
-      - name: Listar arquivos
-        run: ls -la  # Lista os arquivos para ver se o projeto foi clonado corretamente
+      - name: Verificar diretório atual e listar arquivos
+        run: |
+          pwd
+          ls -la
 
       - name: Construir o projeto e baixar dependências
-        run: mvn clean install -f projeto-rest-aula03/pom.xml
+        run: |
+          cd projeto-rest-aula03
+          mvn clean install
 
   health-check:
     needs: build
@@ -32,14 +33,15 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Verificar diretório atual
-        run: pwd  # Mostra onde o script está rodando
-
-      - name: Listar arquivos
-        run: ls -la  # Confirma se o projeto foi clonado corretamente
+      - name: Verificar diretório atual e listar arquivos
+        run: |
+          pwd
+          ls -la
 
       - name: Rodar testes de Health Check
-        run: mvn test -Dgroups=HealthCheck -f projeto-rest-aula03/pom.xml
+        run: |
+          cd projeto-rest-aula03
+          mvn test -Dgroups=HealthCheck
 
   contrato:
     needs: health-check
@@ -49,7 +51,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Rodar testes de contrato (JSON Schema)
-        run: mvn test -Dgroups=Contrato -f projeto-rest-aula03/pom.xml
+        run: |
+          cd projeto-rest-aula03
+          mvn test -Dgroups=Contrato
 
   funcional:
     needs: contrato
@@ -59,7 +63,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Rodar testes funcionais com JUnit 5 + Rest Assured
-        run: mvn test -Dgroups=Funcional -f projeto-rest-aula03/pom.xml
+        run: |
+          cd projeto-rest-aula03
+          mvn test -Dgroups=Funcional
 
   relatorio:
     needs: funcional
@@ -69,7 +75,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Gerar relatório de testes com Surefire Report
-        run: mvn surefire-report:report-only -f projeto-rest-aula03/pom.xml
+        run: |
+          cd projeto-rest-aula03
+          mvn surefire-report:report-only
 
       - name: Upload do relatório
         uses: actions/upload-artifact@v3
