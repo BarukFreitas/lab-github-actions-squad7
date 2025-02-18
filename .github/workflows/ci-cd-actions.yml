@@ -1,0 +1,58 @@
+name: CI/CD ServeRest
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: maven
+
+      - name: Compilar o projeto
+        run: mvn clean install
+
+      - name: Construir o projeto e baixar dependências
+        run: |
+          cd projeto-rest-aula03
+          mvn clean install
+
+  health-check:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rodar testes de Health Check
+        run: mvn test -Dgroups=HealthCheck
+
+  contrato:
+    needs: health-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rodar testes de contrato (JSON Schema)
+        run: mvn test -Dgroups=Contrato
+
+  funcional:
+    needs: contrato
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rodar testes funcionais com JUnit 5 + Rest Assured
+        run: mvn test -Dgroups=Funcional
+
+  relatorio:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gerar relatório de testes com Surefire Report
+        run: mvn surefire-report:report-only
+
+      - name: Upload do relatório
+        uses: actions/upload-artifact@v3
+        with:
+          name: relatorio-de-testes
+          path: target/surefire-reports/
