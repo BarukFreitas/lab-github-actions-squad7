@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Rodar testes de Health Check
         run: |
-          cd projeto-rest-aula03
+          cd projeto-rest-aula03\projeto-rest-aula03\src\test\java\com\vemser\rest\tests\usuarios
           mvn test -Dgroups=HealthCheck
 
   contrato:
@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Rodar testes de contrato (JSON Schema)
         run: |
-          cd projeto-rest-aula03  
+          cd projeto-rest-aula03\projeto-rest-aula03\src\test\java\com\vemser\rest\tests\usuarios
           mvn test -Dgroups=Contrato
 
   funcional:
@@ -45,7 +45,7 @@ jobs:
     steps:
       - name: Rodar testes funcionais com JUnit 5 + Rest Assured
         run: |
-          cd projeto-rest-aula03  
+          cd projeto-rest-aula03\projeto-rest-aula03\src\test\java\com\vemser\rest\tests\usuarios  
           mvn test -Dgroups=Funcional
 
   relatorio:
