@@ -20,13 +20,8 @@ public class BaseClient {
                                 .setParam("http.connection.timeout", 10000)
                                 .setParam("http.socket.timeout", 10000))
                         .logConfig(
-<<<<<<< HEAD
                                 LogConfig.logConfig()
                                         .enableLoggingOfRequestAndResponseIfValidationFails()))
-=======
-                        LogConfig.logConfig()
-                                .enableLoggingOfRequestAndResponseIfValidationFails()))
->>>>>>> fa5779f8937bf3ab7c7c091d4060bff49e8da46d
                 .build()
                 ;
     }
