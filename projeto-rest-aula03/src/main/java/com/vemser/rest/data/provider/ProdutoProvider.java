@@ -1,29 +1,41 @@
 package com.vemser.rest.data.provider;
 
 import com.vemser.rest.data.factory.ProdutoDataFactory;
-import com.vemser.rest.model.produto.ProdutoRequest;
-import com.vemser.rest.utils.constants.ProdutoConstants;
 import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.stream.Stream;
 
 public class ProdutoProvider {
 
+    private static final String KEY_NOME = "nome";
+    private static final String VALUE_NOME_VAZIO = "nome não pode ficar em branco";
 
-    public static Stream<Arguments> produtoComCamposVazios() {
+    private static final String KEY_PRECO = "preco";
+    private static final String VALUE_PRECO_VAZIO = "preco deve ser um número positivo";
+    private static final String VALUE_PRECO_INVALIDO = "preco deve ser um número positivo";
+
+    private static final String KEY_DESCRICAO = "descricao";
+    private static final String VALUE_DESCRICAO_VAZIA = "descricao não pode ficar em branco";
+
+    private static final String KEY_QUANTIDADE = "quantidade";
+    private static final String VALUE_QUANTIDADE_VAZIA = "quantidade deve ser um número";
+    private static final String VALUE_QUANTIDADE_INVALIDA = "quantidade deve ser maior ou igual a 0";
+
+
+    public static Stream<Arguments> produtoComCamposVazios () {
         return Stream.of(
-                Arguments.of(ProdutoDataFactory.produtoComNomeVazio(), ProdutoConstants.NOME, ProdutoConstants.MSG_NOME_CAMPO_VAZIO),
-                Arguments.of(ProdutoDataFactory.produtoComPrecoVazio(), ProdutoConstants.PRECO, ProdutoConstants.MSG_PRECO_CAMPO_VAZIO),
-                Arguments.of(ProdutoDataFactory.produtoComDescricaoVazio(), ProdutoConstants.DESCRICAO, ProdutoConstants.MSG_DESCRICAO_CAMPO_VAZIO),
-                Arguments.of(ProdutoDataFactory.produtoComQTDVazio(), ProdutoConstants.QUANTIDADE, ProdutoConstants.MSG_QTD_CAMPO_VAZIO)
-
+                Arguments.of(ProdutoDataFactory.produtoComNomeVazio(), KEY_NOME, VALUE_NOME_VAZIO),
+                Arguments.of(ProdutoDataFactory.produtoComPrecoVazio(), KEY_PRECO, VALUE_PRECO_VAZIO),
+                Arguments.of(ProdutoDataFactory.produtoComDescricaoVazia(), KEY_DESCRICAO, VALUE_DESCRICAO_VAZIA),
+                Arguments.of(ProdutoDataFactory.produtoComQuantidadeVazia(), KEY_QUANTIDADE, VALUE_QUANTIDADE_VAZIA)
         );
     }
 
     public static Stream<Arguments> produtoComCamposPrecoEQuantidadeInvalidos() {
         return Stream.of(
-                Arguments.of(new ProdutoRequest("Produto Teste", -1, "Descrição válida", 10),"preco", "preco deve ser um número positivo"),
-                Arguments.of(new ProdutoRequest("Produto Teste", 100, "Descrição válida", -5), "quantidade", "quantidade deve ser maior ou igual a 0")
+                Arguments.of(ProdutoDataFactory.produtoComPrecoInvalido(),KEY_PRECO, VALUE_PRECO_INVALIDO),
+                Arguments.of(ProdutoDataFactory.produtoComQuantidadeInvalida(), KEY_QUANTIDADE, VALUE_QUANTIDADE_INVALIDA)
         );
     }
+
 }

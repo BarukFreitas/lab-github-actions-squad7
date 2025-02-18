@@ -1,21 +1,22 @@
 package com.vemser.rest.client;
 
-import com.vemser.rest.utils.constants.LoginConstants;
-import com.vemser.rest.model.login.LoginRequest;
+import com.vemser.rest.model.request.LoginRequest;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
 public class LoginClient extends BaseClient {
+    private static final String LOGAR = "/login";
 
-    public Response realizarLogin(LoginRequest loginRequest) {
+    public Response logar(LoginRequest login){
 
         return
                 given()
-                        .spec(set())
-                        .body(loginRequest)
+                        .spec(super.set())
+                        .body(login)
                 .when()
-                        .post(LoginConstants.ENDPOINT_LOGIN)
+                        .post(LOGAR)
                 ;
     }
+
 }

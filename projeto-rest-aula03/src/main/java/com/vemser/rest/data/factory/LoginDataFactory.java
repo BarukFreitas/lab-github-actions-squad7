@@ -1,40 +1,34 @@
 package com.vemser.rest.data.factory;
 
-import com.vemser.rest.model.login.LoginRequest;
-import com.vemser.rest.utils.Credenciais;
+import com.vemser.rest.model.request.LoginRequest;
+import static com.vemser.rest.data.factory.BaseDataFactory.prop;
+import static com.vemser.rest.data.factory.BaseDataFactory.*;
 
 public class LoginDataFactory {
 
-    public static LoginRequest loginValido() {
-        return novoLogin();
-    }
-
-    private static LoginRequest novoLogin() {
-
+    public static LoginRequest loginValido(){
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail(Credenciais.getEmail());
-        loginRequest.setPassword(Credenciais.getPassword());
+
+        loginRequest.setEmail(prop.getProperty("email"));
+        loginRequest.setPassword(prop.getProperty("password"));
 
         return loginRequest;
     }
-    public static LoginRequest loginSemPreencherCampos(){return loginSemCamposPreenchidos();}
 
-    private static LoginRequest loginSemCamposPreenchidos() {
+    public static LoginRequest logarComCamposVazios (){
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("");
-        loginRequest.setPassword("");
+
+        loginRequest.setEmail(vazio);
+        loginRequest.setPassword(vazio);
 
         return loginRequest;
     }
-    public static LoginRequest loginComSenhaErronea() {
-        return loginSenhaInvalida();
-    }
 
-    private static LoginRequest loginSenhaInvalida() {
-
+    public static LoginRequest logarComEmailInvalido(){
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail(Credenciais.getEmail());
-        loginRequest.setPassword("hdsjdfhdjkfhsdjfh");
+
+        loginRequest.setEmail(email);
+        loginRequest.setPassword(prop.getProperty("password"));
 
         return loginRequest;
     }
