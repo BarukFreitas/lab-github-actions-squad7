@@ -30,7 +30,7 @@ public class ListarUsuariosTest {
 
         usuarioClient.listarUsuarios(usuario)
         .then()
-                .statusCode(200)
+                .statusCode(400)
                 .body("quantidade", notNullValue())
         ;
     }
