@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: allure-results-health-check
-          path: projeto-rest-aula03/target/allure-results
+          path: projeto-rest-aula03/allure-results
 
 
   contrato:
@@ -64,7 +64,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: allure-results-contrato
-          path: projeto-rest-aula03/target/allure-results
+          path: projeto-rest-aula03/allure-results
 
 
   funcional:
@@ -83,7 +83,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: allure-results-funcional
-          path: projeto-rest-aula03/target/allure-results
+          path: projeto-rest-aula03/allure-results
 
 
   relatorio:
@@ -139,7 +139,7 @@ jobs:
         with:
           gh_pages: gh-pages
           allure_history: allure-history
-          allure_results: target/allure-results
+          allure_results: projeto-rest-aula03/allure-results
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
