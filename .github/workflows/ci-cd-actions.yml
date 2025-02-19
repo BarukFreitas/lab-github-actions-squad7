@@ -3,12 +3,16 @@ name: CI/CD ServeRest
 on: [push, pull_request]
 
 jobs:
-  build:
+  checkout:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
 
+  build:
+    needs: checkout
+    runs-on: ubuntu-latest
+    steps:
       - name: Configurar JDK 17
         uses: actions/setup-java@v4
         with:
@@ -30,11 +34,6 @@ jobs:
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
-
-      - name: Verificar diretório atual e listar arquivos
-        run: |
-          pwd
-          ls -la
 
       - name: Rodar testes de Health Check
         run: |
@@ -90,63 +89,6 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Configurar JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: maven
-
-      - name: Cache Maven
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven
-
-      - name: Baixar resultados dos testes
-        uses: actions/download-artifact@v4
-        with:
-          name: allure-results-health-check
-          path: target/allure-results
-
-      - name: Baixar resultados dos testes de contrato
-        uses: actions/download-artifact@v4
-        with:
-          name: allure-results-contrato
-          path: target/allure-results
-
-      - name: Baixar resultados dos testes funcionais
-        uses: actions/download-artifact@v4
-        with:
-          name: allure-results-funcional
-          path: target/allure-results
-
-      - name: Load test report history
-        uses: actions/checkout@v4
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Build test report
-        uses: simple-elf/allure-report-action@v1.7
-        if: always()
-        with:
-          gh_pages: gh-pages
-          allure_history: allure-history
-          allure_results: projeto-rest-aula03/allure-results
-
-      - name: Publish test report
-        uses: peaceiris/actions-gh-pages@v4
-        if: always()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
-
       - name: Gerar relatório de testes em XML
         run: |
           cd projeto-rest-aula03
@@ -183,16 +125,57 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Notify Discord
+      - name: Enviar notificação para o Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_SECRET_URL }}
-          TARGET_BRANCH: ${{ secrets.gh-pages }}
+          REPORT_URL: ${{ secrets.REPORT_URL }}
+          RUN_NUMBER: ${{ github.run_number }}
+          PIPELINE_NAME: "CI/CD ServeRest"
           PASSED: ${{ env.PASSED }}
           FAILED: ${{ env.FAILED }}
           TOTAL: ${{ env.TOTAL }}
         run: |
+          # Variáveis
+          BASE_URL="${REPORT_URL}/${RUN_NUMBER}/index.html"
+          TITLE="${PIPELINE_NAME}"
+          PASSED="${PASSED}"
+          FAILED="${FAILED}"
+          TOTAL="${TOTAL}"
+
+          # Formatar a cor do embed com base nos testes passados
+          if [ "$PASSED" -eq "$TOTAL" ]; then
+            COLOR="00FF00"  # Verde
+          else
+            COLOR="FF0000"  # Vermelho
+          fi
+
+          # Enviar o webhook para o Discord
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content": "Build feita com sucesso! ✅ \nStatus: `${{ job.status }}` \nAutor: @${{ github.actor }}"}' \
+          -d '{
+                "username": "CI/CD Bot",
+                "embeds": [
+                  {
+                    "title": "'"$TITLE"'",
+                    "color": '"$COLOR"',
+                    "url": "'"$BASE_URL"'",
+                    "fields": [
+                      {
+                        "name": "Quantidade de Testes",
+                        "value": "'"$TOTAL"'",
+                        "inline": false
+                      },
+                      {
+                        "name": "Passaram",
+                        "value": "'"$PASSED"'",
+                        "inline": true
+                      },
+                      {
+                        "name": "Falharam",
+                        "value": "'"$FAILED"'",
+                        "inline": true
+                      }
+                    ]
+                  }
+                ]
+              }' \
           $DISCORD_WEBHOOK_URL
-          curl -X POST -H "Content-Type: application/json" \
-          -d '{"content": "🧪 **Relatório de Testes** 🧪\n\n✅ **Passaram**: '"$PASSED"' \n❌ **Falharam**: '"$FAILED"' \n🔢 **Total**: '"$TOTAL"'"}' $DISCORD_WEBHOOK_URL
