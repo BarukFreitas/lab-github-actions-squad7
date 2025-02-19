@@ -147,7 +147,7 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
 
-  deploy-allure-report:
+  discord:
     needs: relatorio
     runs-on: ubuntu-latest
     steps:
@@ -155,7 +155,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Aguardar publicação do GitHub Pages
-        run: sleep 60
+        run: sleep 35
 
       - name: Enviar notificação para o Discord
         env:
