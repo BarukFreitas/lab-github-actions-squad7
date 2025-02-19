@@ -69,12 +69,6 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Criar arquivo data.properties
-        run: |
-          mkdir -p lab-github-actions-squad7/projeto-rest-aula03/src/main/java/com/vemser/rest/
-          echo "email=${{ secrets.EMAIL }}" > lab-github-actions-squad7/projeto-rest-aula03/src/main/java/com/vemser/rest/data.properties
-          echo "senha=${{ secrets.SENHA }}" >> lab-github-actions-squad7/projeto-rest-aula03/src/main/java/com/vemser/rest/data.properties
-
       - name: Rodar testes de contrato (JSON Schema)
         run: |
           cd projeto-rest-aula03
@@ -92,11 +86,6 @@ jobs:
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
-        
-      - name: Definir variáveis de ambiente
-        run: |
-          echo "email=${{ secrets.EMAIL }}" > lab-github-actions-squad7/projeto-rest-aula03/src/main/java/com/vemser/rest/data.properties
-          echo "senha=${{ secrets.SENHA }}" >> lab-github-actions-squad7/projeto-rest-aula03/src/main/java/com/vemser/rest/data.properties
           
       - name: Rodar testes funcionais com JUnit 5 + Rest Assured
         run: |
