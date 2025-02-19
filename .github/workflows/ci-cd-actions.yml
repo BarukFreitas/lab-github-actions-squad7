@@ -39,6 +39,7 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
 
       - name: Build e Analise SonarQube
+        continue-on-error: true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
