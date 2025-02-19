@@ -4,7 +4,6 @@ target/
 !**/src/test/**/target/
 
 HELP.md
-allure-results
 properties
 
 ### IntelliJ IDEA ###
@@ -41,5 +40,3 @@ build/
 
 ### Mac OS ###
 .DS_Store
-
-allure-results
