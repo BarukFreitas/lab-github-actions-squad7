@@ -71,7 +71,7 @@ jobs:
 
       - name: Criar arquivo data.properties
         run: |
-          mkdir -p src/main/resources
+          mkdir -p lab-github-actions-squad7/projeto-rest-aula03/src/main/java/com/vemser/rest/
           echo "email=${{ secrets.EMAIL }}" > src/main/resources/data.properties
           echo "senha=${{ secrets.SENHA }}" >> src/main/resources/data.properties
 
