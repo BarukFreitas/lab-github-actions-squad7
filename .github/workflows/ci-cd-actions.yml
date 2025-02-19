@@ -1,0 +1,186 @@
+name: CI/CD ServeRest
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: maven
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
+
+      - name: Build and analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          cd projeto-rest-aula03
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.projectKey=BarukFreitas_lab-github-actions-squad7
+
+  health-check:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Verificar diretório atual e listar arquivos
+        run: |
+          pwd
+          ls -la
+
+      - name: Rodar testes de Health Check
+        run: |
+          cd projeto-rest-aula03
+          mvn test -Dgroups=HealthCheck
+
+      - name: Salvar resultados de testes
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-health-check
+          path: projeto-rest-aula03/allure-results
+
+  contrato:
+    needs: health-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Rodar testes de contrato (JSON Schema)
+        run: |
+          cd projeto-rest-aula03
+          mvn test -Dgroups=Contrato
+
+      - name: Salvar resultados de testes
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-contrato
+          path: projeto-rest-aula03/allure-results
+
+  funcional:
+    needs: contrato
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+          
+      - name: Rodar testes funcionais com JUnit 5 + Rest Assured
+        run: |
+          cd projeto-rest-aula03
+          mvn test -Dgroups=Funcional
+
+      - name: Salvar resultados de testes
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-funcional
+          path: projeto-rest-aula03/allure-results
+
+  relatorio:
+    needs: funcional
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: maven
+
+      - name: Cache Maven
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
+
+      - name: Baixar resultados dos testes
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-health-check
+          path: target/allure-results
+
+      - name: Baixar resultados dos testes de contrato
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-contrato
+          path: target/allure-results
+
+      - name: Baixar resultados dos testes funcionais
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-funcional
+          path: target/allure-results
+
+      - name: Load test report history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: projeto-rest-aula03/allure-results
+
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+
+  discord:
+    needs: relatorio
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Aguardar publicação do GitHub Pages
+        run: sleep 35
+
+      - name: Enviar notificação para o Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_SECRET_URL }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          ARTIFACT_URL="https://barukfreitas.github.io/lab-github-actions-squad7/$RUN_NUMBER/"
+          
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"content\": \"A pipeline foi executada com sucesso! Acesse o relatório Allure aqui: $ARTIFACT_URL\"}" \
+          $DISCORD_WEBHOOK_URL
+
+
