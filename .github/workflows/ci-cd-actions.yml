@@ -153,8 +153,6 @@ jobs:
           publish_dir: allure-history
 
       - name: Discord notification
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_SECRET_URL }}
         uses: Ilshidur/action-discord@master
         with:
           args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
