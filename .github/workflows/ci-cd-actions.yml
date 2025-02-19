@@ -147,12 +147,18 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
 
+  deploy-allure-report:
+    needs: relatorio
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
       - name: Enviar notificação para o Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_SECRET_URL }}
-          RUN_NUMBER: ${{ github.run_number }}
         run: |
-          ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          ARTIFACT_URL="https://seuusuario.github.io/seu-repositorio/allure-history"
           
           curl -X POST -H "Content-Type: application/json" \
           -d "{\"content\": \"A pipeline foi executada com sucesso! Acesse o relatório Allure aqui: $ARTIFACT_URL\"}" \
