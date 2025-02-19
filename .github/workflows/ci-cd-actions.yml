@@ -178,7 +178,7 @@ jobs:
       - name: Aguardar publicação do GitHub Pages
         run: sleep 35
 
-      - name: Enviar notificação para o Discord
+      - name: Enviar notificação para o Discord\
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_SECRET_URL }}
           RUN_NUMBER: ${{ github.run_number }}
