@@ -49,7 +49,6 @@ jobs:
 
   health-check:
     needs: build
-    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
@@ -69,7 +68,6 @@ jobs:
 
   contrato:
     needs: health-check
-    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
@@ -89,7 +87,6 @@ jobs:
 
   funcional:
     needs: contrato
-    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
