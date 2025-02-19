@@ -41,6 +41,13 @@ jobs:
           cd projeto-rest-aula03
           mvn test -Dgroups=HealthCheck
 
+      - name: Salvar resultados de testes
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-health-check
+          path: projeto-rest-aula03/target/allure-results
+
+
   contrato:
     needs: health-check
     runs-on: ubuntu-latest
@@ -53,6 +60,13 @@ jobs:
           cd projeto-rest-aula03
           mvn test -Dgroups=Contrato
 
+      - name: Salvar resultados de testes
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-contrato
+          path: projeto-rest-aula03/target/allure-results
+
+
   funcional:
     needs: contrato
     runs-on: ubuntu-latest
@@ -64,6 +78,13 @@ jobs:
         run: |
           cd projeto-rest-aula03
           mvn test -Dgroups=Funcional
+
+      - name: Salvar resultados de testes
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-funcional
+          path: projeto-rest-aula03/target/allure-results
+
 
   relatorio:
     needs: funcional
