@@ -1,5 +1,4 @@
 name: CI/CD ServeRest
-
 on:
   push:
     branches:
