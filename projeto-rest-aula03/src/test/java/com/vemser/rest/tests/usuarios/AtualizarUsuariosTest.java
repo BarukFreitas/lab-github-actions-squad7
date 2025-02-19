@@ -3,17 +3,27 @@ package com.vemser.rest.tests.usuarios;
 import com.vemser.rest.client.UsuarioClient;
 import com.vemser.rest.data.factory.UsuarioDataFactory;
 import com.vemser.rest.model.request.UsuarioRequest;
+import io.qameta.allure.*;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 
+@Epic("API")
+@Feature("FUNCIONALIDADES")
+@Story("ATUALIZAR USUÁRIOS")
+@DisplayName("Testes de atualizar usuários")
 public class AtualizarUsuariosTest {
 
     private final UsuarioClient usuarioClient = new UsuarioClient();
 
     @Test
+    @DisplayName("CT005 - Validar atualizar usuário")
+    @Tag("Funcional")
+    @Severity(SeverityLevel.CRITICAL)
     public void testDeveAtualizarUsuarioComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -37,6 +47,9 @@ public class AtualizarUsuariosTest {
     }
 
     @Test
+    @DisplayName("CT005.1 - Validar contrato de atualizar usuário")
+    @Tag("Contrato")
+    @Severity(SeverityLevel.CRITICAL)
     public void testSchemaDeveAtualizarUsuarioComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -60,6 +73,9 @@ public class AtualizarUsuariosTest {
     }
 
     @Test
+    @DisplayName("CT005.2 - Validar atualizar usuário com ID não cadastrado")
+    @Tag("Funcional")
+    @Severity(SeverityLevel.NORMAL)
     public void testDeveAtualizarUsuarioComIdNaoCadastrado() {
 
         UsuarioRequest usuarioAtualizado = UsuarioDataFactory.usuarioValido();
@@ -75,6 +91,9 @@ public class AtualizarUsuariosTest {
     }
 
     @Test
+    @DisplayName("CT005.3 - Tentativa de atualizar usuário com e-mail em uso")
+    @Tag("Funcional")
+    @Severity(SeverityLevel.NORMAL)
     public void testTentarAtualizarUsuarioComEmailJaUtilizadoPorOutroUsuario() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -96,6 +115,9 @@ public class AtualizarUsuariosTest {
     }
 
     @Test
+    @DisplayName("CT005.4 - Tentativa de atualizar usuário sem informar dados")
+    @Tag("Funcional")
+    @Severity(SeverityLevel.NORMAL)
     public void testTentarAtualizarUsuarioSemInformarDados() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
