@@ -50,7 +50,6 @@ jobs:
   health-check:
     needs: build
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
@@ -69,7 +68,6 @@ jobs:
   contrato:
     needs: health-check
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
@@ -88,7 +86,6 @@ jobs:
   funcional:
     needs: contrato
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
@@ -127,18 +124,21 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
 
       - name: Baixar resultados dos testes
+        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: allure-results-health-check
           path: target/allure-results
 
       - name: Baixar resultados dos testes de contrato
+        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: allure-results-contrato
           path: target/allure-results
 
       - name: Baixar resultados dos testes funcionais
+        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: allure-results-funcional
