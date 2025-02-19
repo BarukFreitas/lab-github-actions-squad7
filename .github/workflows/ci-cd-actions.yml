@@ -47,7 +47,6 @@ jobs:
           name: allure-results-health-check
           path: projeto-rest-aula03/allure-results
 
-
   contrato:
     needs: health-check
     runs-on: ubuntu-latest
@@ -65,7 +64,6 @@ jobs:
         with:
           name: allure-results-contrato
           path: projeto-rest-aula03/allure-results
-
 
   funcional:
     needs: contrato
@@ -85,13 +83,12 @@ jobs:
           name: allure-results-funcional
           path: projeto-rest-aula03/allure-results
 
-
   relatorio:
     needs: funcional
     runs-on: ubuntu-latest
     steps:
-    
-      - uses: actions/checkout@v4
+      - name: Checkout do código
+        uses: actions/checkout@v4
 
       - name: Configurar JDK 17
         uses: actions/setup-java@v4
@@ -114,16 +111,17 @@ jobs:
           name: allure-results-health-check
           path: target/allure-results
 
-      - uses: actions/download-artifact@v4
+      - name: Baixar resultados dos testes de contrato
+        uses: actions/download-artifact@v4
         with:
           name: allure-results-contrato
           path: target/allure-results
 
-      - uses: actions/download-artifact@v4
+      - name: Baixar resultados dos testes funcionais
+        uses: actions/download-artifact@v4
         with:
           name: allure-results-funcional
           path: target/allure-results
-
 
       - name: Load test report history
         uses: actions/checkout@v4
@@ -148,3 +146,26 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
+
+  discord:
+    needs: relatorio
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Aguardar publicação do GitHub Pages
+        run: sleep 35
+
+      - name: Enviar notificação para o Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_SECRET_URL }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          ARTIFACT_URL="https://barukfreitas.github.io/lab-github-actions-squad7/$RUN_NUMBER/"
+          
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"content\": \"A pipeline foi executada com sucesso! Acesse o relatório Allure aqui: $ARTIFACT_URL\"}" \
+          $DISCORD_WEBHOOK_URL
+
+
