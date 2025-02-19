@@ -34,7 +34,10 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=BarukFreitas_lab-github-actions-squad7
+        run: |
+          cd projeto-rest-aula03
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.projectKey=BarukFreitas_lab-github-actions-squad7
 
   health-check:
     needs: build
