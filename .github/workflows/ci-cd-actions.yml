@@ -147,24 +147,6 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
 
-  discord:
-    needs: relatorio
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
-
-      - name: Gerar relatório Allure
-        run: |
-          cd projeto-rest-aula03
-          mvn allure:report
-
-      - name: Fazer upload do relatório Allure
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: projeto-rest-aula03/target/site/allure-maven-plugin
-
       - name: Enviar notificação para o Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_SECRET_URL }}
