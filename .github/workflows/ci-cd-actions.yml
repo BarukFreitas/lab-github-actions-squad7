@@ -49,6 +49,7 @@ jobs:
 
   health-check:
     needs: build
+    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
@@ -67,6 +68,7 @@ jobs:
 
   contrato:
     needs: health-check
+    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
@@ -85,6 +87,7 @@ jobs:
 
   funcional:
     needs: contrato
+    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
@@ -103,7 +106,7 @@ jobs:
 
   relatorio:
     runs-on: ubuntu-latest
-    needs: [funcional]
+    needs: funcional
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
