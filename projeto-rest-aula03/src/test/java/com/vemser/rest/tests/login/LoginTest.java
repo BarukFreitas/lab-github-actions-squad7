@@ -5,6 +5,7 @@ import com.vemser.rest.data.factory.LoginDataFactory;
 import com.vemser.rest.model.request.LoginRequest;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -15,6 +16,7 @@ public class LoginTest {
     private final LoginClient loginClient = new LoginClient();
 
     @Test
+    @Tag("Funcional")
     public void testDeveLogarComSucesso() {
 
         LoginRequest login = LoginDataFactory.loginValido();
@@ -34,6 +36,7 @@ public class LoginTest {
     }
 
     @Test
+    @Tag("Contrato")
     public void testSchemaDeveLogarComSucesso() {
 
         LoginRequest login = LoginDataFactory.loginValido();
@@ -47,6 +50,7 @@ public class LoginTest {
     }
 
     @Test
+    @Tag("Funcional")
     public void testTentarLoginComEmailInvalido() {
 
         LoginRequest login = LoginDataFactory.logarComEmailInvalido();
@@ -60,6 +64,7 @@ public class LoginTest {
     }
 
     @Test
+    @Tag("Funcional")
     public void testTentarLoginComCamposVazios() {
 
         LoginRequest login = LoginDataFactory.logarComCamposVazios();

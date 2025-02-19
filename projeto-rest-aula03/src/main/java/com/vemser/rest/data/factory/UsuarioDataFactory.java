@@ -33,7 +33,7 @@ public class UsuarioDataFactory {
 
     public static UsuarioRequest usuarioComEmailEmUso() {
         UsuarioRequest usuario = novoUsuario();
-        usuario.setEmail(prop.getProperty("email"));
+        usuario.setEmail("teste1@qa.com.br");
 
         return usuario;
     }

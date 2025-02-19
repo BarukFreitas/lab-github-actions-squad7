@@ -46,6 +46,7 @@ public class CadastrarUsuariosTest {
     }
 
     @Test
+    @Tag("Funcional")
     public void testTentarCadastroDeUsuarioComCamposVazios() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioComCamposVazios();
@@ -61,6 +62,7 @@ public class CadastrarUsuariosTest {
     }
 
     @Test
+    @Tag("Funcional")
     public void testTentarCadastroDeUsuarioComEmailJaCadastrado() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioComEmailEmUso();

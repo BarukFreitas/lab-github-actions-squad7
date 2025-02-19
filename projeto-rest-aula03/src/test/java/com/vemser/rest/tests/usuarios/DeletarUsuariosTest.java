@@ -5,6 +5,7 @@ import com.vemser.rest.data.factory.UsuarioDataFactory;
 import com.vemser.rest.model.request.UsuarioRequest;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -15,6 +16,7 @@ public class DeletarUsuariosTest {
     private final UsuarioClient usuarioClient = new UsuarioClient();
 
     @Test
+    @Tag("Funcional")
     public void testDeveDeletarUsuarioComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -34,6 +36,7 @@ public class DeletarUsuariosTest {
     }
 
     @Test
+    @Tag("Contrato")
     public void testSchemaDeveDeletarUsuarioComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -53,6 +56,7 @@ public class DeletarUsuariosTest {
     }
 
     @Test
+    @Tag("Funcional")
     public void testTentarDeletarUsuarioComIdInvalido() {
 
         Response response = usuarioClient.deletarUsuarios(UsuarioDataFactory.idInvalido());
@@ -64,6 +68,7 @@ public class DeletarUsuariosTest {
     }
 
     @Test
+    @Tag("Funcional")
     public void testTentarDeletarUsuarioSemPreencherCampoId() {
 
         Response response = usuarioClient.deletarUsuarios("0")

@@ -5,6 +5,7 @@ import com.vemser.rest.data.factory.UsuarioDataFactory;
 import com.vemser.rest.model.request.UsuarioRequest;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
@@ -14,6 +15,7 @@ public class AtualizarUsuariosTest {
     private final UsuarioClient usuarioClient = new UsuarioClient();
 
     @Test
+    @Tag("Funcional")
     public void testDeveAtualizarUsuarioComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -37,6 +39,7 @@ public class AtualizarUsuariosTest {
     }
 
     @Test
+    @Tag("Contrato")
     public void testSchemaDeveAtualizarUsuarioComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -60,6 +63,7 @@ public class AtualizarUsuariosTest {
     }
 
     @Test
+    @Tag("Funcional")
     public void testDeveAtualizarUsuarioComIdNaoCadastrado() {
 
         UsuarioRequest usuarioAtualizado = UsuarioDataFactory.usuarioValido();
@@ -75,6 +79,7 @@ public class AtualizarUsuariosTest {
     }
 
     @Test
+    @Tag("Funcional")
     public void testTentarAtualizarUsuarioComEmailJaUtilizadoPorOutroUsuario() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -96,6 +101,7 @@ public class AtualizarUsuariosTest {
     }
 
     @Test
+    @Tag("Funcional")
     public void testTentarAtualizarUsuarioSemInformarDados() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();

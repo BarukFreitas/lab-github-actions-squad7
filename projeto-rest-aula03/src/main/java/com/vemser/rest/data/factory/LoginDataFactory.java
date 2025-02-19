@@ -9,8 +9,8 @@ public class LoginDataFactory {
     public static LoginRequest loginValido(){
         LoginRequest loginRequest = new LoginRequest();
 
-        loginRequest.setEmail("lari@gmail.com");
-        loginRequest.setPassword("0m423g5m8");
+        loginRequest.setEmail("teste1@qa.com.br");
+        loginRequest.setPassword("teste");
 
         return loginRequest;
     }
@@ -28,7 +28,7 @@ public class LoginDataFactory {
         LoginRequest loginRequest = new LoginRequest();
 
         loginRequest.setEmail(email);
-        loginRequest.setPassword("0m423g5m8");
+        loginRequest.setPassword("teste");
 
         return loginRequest;
     }

@@ -4,6 +4,7 @@ import com.vemser.rest.client.UsuarioClient;
 import com.vemser.rest.data.factory.UsuarioDataFactory;
 import com.vemser.rest.model.request.UsuarioRequest;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.hasSize;
@@ -14,6 +15,7 @@ public class ListarUsuariosTest {
     private final UsuarioClient usuarioClient = new UsuarioClient();
 
     @Test
+    @Tag("Funcional")
     public void testDeveListarTodosUsuariosComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -26,6 +28,7 @@ public class ListarUsuariosTest {
     }
 
     @Test
+    @Tag("Contrato")
     public void testSchemaDeveListarTodosUsuariosComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -38,6 +41,7 @@ public class ListarUsuariosTest {
     }
 
     @Test
+    @Tag("Funcional")
     public void testDeveListarUsuariosPorNomeComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -56,6 +60,7 @@ public class ListarUsuariosTest {
     }
 
     @Test
+    @Tag("Funcional")
     public void testTentarListarUsuariosComCampoNomeInvalido() {
 
         usuarioClient.listarUsuariosPorNome(UsuarioDataFactory.nomeInvalido())
