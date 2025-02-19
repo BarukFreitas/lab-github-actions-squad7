@@ -69,16 +69,32 @@ jobs:
     needs: funcional
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout do código
+    
+      - uses: actions/checkout@v4
+
+      - name: Run tests
+        run: ./gradlew clean test
+
+      - name: Load test report history
         uses: actions/checkout@v4
-
-      - name: Gerar relatório de testes com Surefire Report
-        run: |
-          cd projeto-rest-aula03
-          mvn surefire-report:report-only
-
-      - name: Upload do relatório
-        uses: actions/upload-artifact@v3
+        if: always()
+        continue-on-error: true
         with:
-          name: relatorio-de-testes
-          path: projeto-rest-aula03/target/surefire-reports/
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: build/allure-results
+
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
