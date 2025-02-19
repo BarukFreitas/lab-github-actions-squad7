@@ -4,6 +4,8 @@ import com.vemser.rest.client.UsuarioClient;
 import com.vemser.rest.data.factory.UsuarioDataFactory;
 import com.vemser.rest.model.request.UsuarioRequest;
 import com.vemser.rest.model.response.UsuarioResponse;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -17,7 +19,9 @@ public class BuscarUsuariosPorIdTest {
     private final UsuarioClient usuarioClient = new UsuarioClient();
 
     @Test
+    @DisplayName("Validar buscar usuário por ID")
     @Tag("HealthCheck")
+    @Severity(SeverityLevel.CRITICAL)
     public void testBuscarUsuarioPorIdComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
@@ -34,7 +38,9 @@ public class BuscarUsuariosPorIdTest {
     }
 
     @Test
+    @DisplayName("Validar buscar usuário por ID")
     @Tag("Contrato")
+    @Severity(SeverityLevel.CRITICAL)
     public void testSchemaBuscarUsuarioPorIdComSucesso() {
 
         UsuarioRequest usuario = UsuarioDataFactory.usuarioValido();
