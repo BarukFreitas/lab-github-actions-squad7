@@ -3,8 +3,7 @@ package com.vemser.rest.tests.usuarios;
 import com.vemser.rest.client.UsuarioClient;
 import com.vemser.rest.data.factory.UsuarioDataFactory;
 import com.vemser.rest.model.request.UsuarioRequest;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.*;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,12 +12,16 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 
+@Epic("API")
+@Feature("FUNCIONALIDADES")
+@Story("ATUALIZAR USUÁRIOS")
+@DisplayName("Testes de atualizar usuários")
 public class AtualizarUsuariosTest {
 
     private final UsuarioClient usuarioClient = new UsuarioClient();
 
     @Test
-    @DisplayName("Validar atualizar usuário")
+    @DisplayName("CT005 - Validar atualizar usuário")
     @Tag("Funcional")
     @Severity(SeverityLevel.CRITICAL)
     public void testDeveAtualizarUsuarioComSucesso() {
@@ -44,7 +47,7 @@ public class AtualizarUsuariosTest {
     }
 
     @Test
-    @DisplayName("Validar contrato de atualizar usuário")
+    @DisplayName("CT005.1 - Validar contrato de atualizar usuário")
     @Tag("Contrato")
     @Severity(SeverityLevel.CRITICAL)
     public void testSchemaDeveAtualizarUsuarioComSucesso() {
@@ -70,7 +73,7 @@ public class AtualizarUsuariosTest {
     }
 
     @Test
-    @DisplayName("Validar atualizar usuário com ID não cadastrado")
+    @DisplayName("CT005.2 - Validar atualizar usuário com ID não cadastrado")
     @Tag("Funcional")
     @Severity(SeverityLevel.NORMAL)
     public void testDeveAtualizarUsuarioComIdNaoCadastrado() {
@@ -88,7 +91,7 @@ public class AtualizarUsuariosTest {
     }
 
     @Test
-    @DisplayName("Tentativa de atualizar usuário com e-mail em uso")
+    @DisplayName("CT005.3 - Tentativa de atualizar usuário com e-mail em uso")
     @Tag("Funcional")
     @Severity(SeverityLevel.NORMAL)
     public void testTentarAtualizarUsuarioComEmailJaUtilizadoPorOutroUsuario() {
@@ -112,7 +115,7 @@ public class AtualizarUsuariosTest {
     }
 
     @Test
-    @DisplayName("Tentativa de atualizar usuário sem informar dados")
+    @DisplayName("CT005.4 - Tentativa de atualizar usuário sem informar dados")
     @Tag("Funcional")
     @Severity(SeverityLevel.NORMAL)
     public void testTentarAtualizarUsuarioSemInformarDados() {
