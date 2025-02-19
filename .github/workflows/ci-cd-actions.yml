@@ -66,6 +66,7 @@ jobs:
           mvn test -Dgroups=Funcional
 
   relatorio:
+    needs: funcional
     runs-on: ubuntu-latest
     steps:
     
