@@ -103,7 +103,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Aguardar testes
-        run: sleep(110)
+        run: sleep 110
       - name: Checkout do código
         uses: actions/checkout@v4
 
