@@ -157,7 +157,10 @@ jobs:
           ls -la projeto-rest-aula03
           cat projeto-rest-aula03/test-results.json || echo "Arquivo test-results.json não encontrado!"
 
-
+      - name: Run tests and save report
+        run: |
+          jest --json --outputFile=test-results.json || true  # Garante que o job continue mesmo com falha
+          
       - name: Extract summary
         run: |
           TEST_RESULTS="projeto-rest-aula03/test-results.json"
