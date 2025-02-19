@@ -127,21 +127,18 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
 
       - name: Baixar resultados dos testes
-        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: allure-results-health-check
           path: target/allure-results
 
       - name: Baixar resultados dos testes de contrato
-        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: allure-results-contrato
           path: target/allure-results
 
       - name: Baixar resultados dos testes funcionais
-        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: allure-results-funcional
