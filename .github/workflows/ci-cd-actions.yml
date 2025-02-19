@@ -131,21 +131,18 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
 
       - name: Baixar resultados dos testes
-        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: allure-results-health-check
           path: target/allure-results
 
       - name: Baixar resultados dos testes de contrato
-        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: allure-results-contrato
           path: target/allure-results
 
       - name: Baixar resultados dos testes funcionais
-        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: allure-results-funcional
@@ -153,23 +150,19 @@ jobs:
 
       - name: Carregar histórico de report
         uses: actions/checkout@v4
-        if: always()
-        continue-on-error: true
         with:
           ref: gh-pages
           path: gh-pages
 
       - name: Construir report de teste
         uses: simple-elf/allure-report-action@v1.7
-        if: always()
         with:
           gh_pages: gh-pages
           allure_history: allure-history
-          allure_results: projeto-rest-aula03/allure-results
+          allure_results: target/allure-results  
 
       - name: Publicar report
         uses: peaceiris/actions-gh-pages@v4
-        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
