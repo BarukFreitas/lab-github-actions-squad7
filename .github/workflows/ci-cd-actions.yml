@@ -147,6 +147,22 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
 
+      - name: Gerar relatório JSON dos testes
+        run: |
+          cd projeto-rest-aula03
+          mvn surefire-report:report-only -DoutputFile=test-results.json
+
+      - name: Extract summary
+        run: |
+          PASSED=$(jq '.numPassedTests' projeto-rest-aula03/test-results.json)
+          FAILED=$(jq '.numFailedTests' projeto-rest-aula03/test-results.json)
+          TOTAL=$(jq '.numTotalTests' projeto-rest-aula03/test-results.json)
+          echo "PASSED=$PASSED" >> $GITHUB_ENV
+          echo "FAILED=$FAILED" >> $GITHUB_ENV
+          echo "TOTAL=$TOTAL" >> $GITHUB_ENV
+
+
+
   discord:
     needs: relatorio
     runs-on: ubuntu-latest
@@ -158,7 +174,12 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_SECRET_URL }}
           TARGET_BRANCH: ${{ secrets.gh-pages }}
+          PASSED: ${{ env.PASSED }}
+          FAILED: ${{ env.FAILED }}
+          TOTAL: ${{ env.TOTAL }}
         run: |
           curl -X POST -H "Content-Type: application/json" \
           -d '{"content": "Build feita com sucesso! ✅ \nStatus: `${{ job.status }}` \nAutor: @${{ github.actor }}"}' \
           $DISCORD_WEBHOOK_URL
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "🧪 Relatório de Testes 🧪\n\n✅ Passaram: '"$PASSED"' \n❌ Falharam: '"$FAILED"' \n🔢 Total: '"$TOTAL"'"}' $DISCORD_WEBHOOK_URL
