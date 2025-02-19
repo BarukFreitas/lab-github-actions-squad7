@@ -73,7 +73,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run tests
-        run: ./gradlew clean test
+        run: mvn clean test
 
       - name: Load test report history
         uses: actions/checkout@v4
@@ -89,7 +89,7 @@ jobs:
         with:
           gh_pages: gh-pages
           allure_history: allure-history
-          allure_results: build/allure-results
+          allure_results: target/allure-results
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
