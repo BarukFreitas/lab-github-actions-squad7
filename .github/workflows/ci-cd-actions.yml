@@ -54,10 +54,11 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Definir variáveis de ambiente
+      - name: Criar arquivo data.properties
         run: |
-          echo "EMAIL=${{ secrets.EMAIL }}" >> $GITHUB_ENV
-          echo "SENHA=${{ secrets.SENHA }}" >> $GITHUB_ENV
+          mkdir -p src/main/resources
+          echo "email=${{ secrets.EMAIL }}" > src/main/resources/data.properties
+          echo "senha=${{ secrets.SENHA }}" >> src/main/resources/data.properties
 
       - name: Rodar testes de contrato (JSON Schema)
         run: |
@@ -79,8 +80,8 @@ jobs:
         
       - name: Definir variáveis de ambiente
         run: |
-          echo "EMAIL=${{ secrets.EMAIL }}" >> $GITHUB_ENV
-          echo "SENHA=${{ secrets.SENHA }}" >> $GITHUB_ENV
+          echo "email=${{ secrets.EMAIL }}" > src/main/resources/data.properties
+          echo "senha=${{ secrets.SENHA }}" >> src/main/resources/data.properties
 
       - name: Rodar testes funcionais com JUnit 5 + Rest Assured
         run: |
