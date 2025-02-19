@@ -66,16 +66,25 @@ jobs:
           mvn test -Dgroups=Funcional
 
   relatorio:
-    needs: funcional
     runs-on: ubuntu-latest
     steps:
     
       - uses: actions/checkout@v4
 
-      - name: Rodar testes
-        run: |
-          cd projeto-rest-aula03
-          mvn test -Dgroups=HealthCheck
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: maven
+
+      - name: Cache Maven
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
 
       - name: Load test report history
         uses: actions/checkout@v4
