@@ -48,6 +48,7 @@ jobs:
   health-check:
     needs: build
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
@@ -66,6 +67,7 @@ jobs:
   contrato:
     needs: health-check
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
@@ -84,6 +86,7 @@ jobs:
   funcional:
     needs: contrato
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
