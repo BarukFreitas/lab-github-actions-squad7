@@ -2,6 +2,9 @@ name: CI/CD ServeRest
 
 on: [push, pull_request]
 
+env:
+  DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_SECRET_URL }}
+          
 jobs:
   build:
     runs-on: ubuntu-latest
