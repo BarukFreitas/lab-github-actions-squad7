@@ -107,8 +107,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [funcional]
     steps:
-      - name: Aguardar testes
-        run: sleep 110
       - name: Checkout do código
         uses: actions/checkout@v4
 
