@@ -54,6 +54,11 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
+      - name: Definir variáveis de ambiente
+        run: |
+          echo "EMAIL=${{ secrets.EMAIL }}" >> $GITHUB_ENV
+          echo "SENHA=${{ secrets.SENHA }}" >> $GITHUB_ENV
+
       - name: Rodar testes de contrato (JSON Schema)
         run: |
           cd projeto-rest-aula03
@@ -71,6 +76,11 @@ jobs:
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
+        
+      - name: Definir variáveis de ambiente
+        run: |
+          echo "EMAIL=${{ secrets.EMAIL }}" >> $GITHUB_ENV
+          echo "SENHA=${{ secrets.SENHA }}" >> $GITHUB_ENV
 
       - name: Rodar testes funcionais com JUnit 5 + Rest Assured
         run: |
