@@ -154,6 +154,9 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
+      - name: Aguardar publicação do GitHub Pages
+        run: sleep 60
+
       - name: Enviar notificação para o Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_SECRET_URL }}
@@ -163,3 +166,4 @@ jobs:
           curl -X POST -H "Content-Type: application/json" \
           -d "{\"content\": \"A pipeline foi executada com sucesso! Acesse o relatório Allure aqui: $ARTIFACT_URL\"}" \
           $DISCORD_WEBHOOK_URL
+
