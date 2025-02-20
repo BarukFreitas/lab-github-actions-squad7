@@ -109,6 +109,8 @@ Durante o projeto foram utilizadas as seguintes ferramentas:
 
 ## Arquitetura da pipeline
 
+![Pipeline](./docs/img/pipeline.png)
+
 Nossa pipeline executa um script que irá compilar o código, rodar alguns testes para verificar se a API está operante, caso esse teste seja positivo, prosseguirá 
 para os testes de contrato, que verifica se os testes programados estão seguindo o esquema JSON definido previamente na documentação da API, caso esse teste seja positivo, 
 prosseguirá novamente para a próxima etapa que irá testar todas as funcionalidades. Nesta etapa, ele irá fazer testes positivos e negativos, portanto, independente se ocorram erros, 
@@ -122,6 +124,9 @@ Após a implementação e execução da pipeline, o relatório é enviado direta
 o registro detalhado de todos os testes realizados. Dessa forma, conseguimos monitorar facilmente a aparição de novos erros, bem como verificar se os erros identificados 
 anteriormente foram corrigidos
 
+![Resultado Allure](./docs/img/resultado.gif)
+
+Durante todo o processo, obtivemos um resultado positivo: todos os 24 testes foram aprovados, sem a detecção de nenhum bug durante a fase de testes no ServerRest. 
 
 ## Referências
 
