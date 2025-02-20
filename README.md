@@ -128,6 +128,19 @@ anteriormente foram corrigidos
 
 Durante todo o processo, obtivemos um resultado positivo: todos os 24 testes foram aprovados, sem a detecção de nenhum bug durante a fase de testes no ServerRest. 
 
+Depois da implementação do SonarQube, conseguimos notar como ele ajuda a pontuar onde os desenvolvedores que irão consertar a aplicação devem concentrar seus focos,
+pois ele mostra exatamente onde que tem códigos duplicados, onde que tem possíveis erros, onde devem existir manutenções, além de mostrar se a qualidade do código está aceitável ou não. 
+
+O SonarQube faz a analise das mudanças em cada branch, como trabalhamos com a versão gratúita, pudemos analizar apenas a branch Main.
+Aqui vemos um exemplo de como é mostrado o report de resultados coletados da branch main.
+
+![Demonstração Branch Main](./docs/img/branch-main.gif)
+
+Além de analisar cada branch como um todo, ele também analisa cada pull request separadamente, mostrando quais foram as mudanças feitas nela, da mesma forma que ele analisa a branch,
+mas sem sobrecarregar o leitor com informações que possivelmente ja foram alteradas.
+
+![Demonstração Pull Request](./docs/img/pull-request.gif)
+
 ## Referências
 
 - [Documentação oficial do Java](https://www.oracle.com/java/technologies/javase-jdk17-doc-downloads.html) 
@@ -140,7 +153,9 @@ Durante todo o processo, obtivemos um resultado positivo: todos os 24 testes for
 - [Usando Github Actions e Discord](https://dev.to/yelldutz/como-notificar-sua-build-do-github-usando-github-actions-e-discord-2nbj) 
 - [Como Usar os Segredos do GitHub Actions](https://kinsta.com/pt/blog/segredos-github-actions/) 
 
-
+## PDF da documentação
+- [Documentação Squad7](https://dbccompany-my.sharepoint.com/:b:/g/personal/larissa_caldeira_dbccompany_com_br/EYGTe8gAo-BOjjt9Du5lp7UBn1mINDmV0ckBJ1JkscGBnA?e=aXhsBt)
+  
 <h1 align="center"> Integrantes Squad 07</h1>
 <table align="center">
   <tr align="center">
