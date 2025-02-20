@@ -168,6 +168,15 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
 
+      - name: Subir relatório para a branch `vercel-deploy`
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git checkout -B vercel-deploy
+          git add allure-history
+          git commit -m "Atualizando Allure Report"
+          git push origin vercel-deploy --force
+
   discord:
     needs: relatorio
     runs-on: ubuntu-latest
